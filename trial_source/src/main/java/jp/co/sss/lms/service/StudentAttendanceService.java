@@ -334,4 +334,20 @@ public class StudentAttendanceService {
 		return messageUtil.getMessage(Constants.PROP_KEY_ATTENDANCE_UPDATE_NOTICE);
 	}
 
+	public Boolean notEnterCheck() {
+
+		//現在の日付を取得
+		Date traningDate = attendanceUtil.getTrainingDate();
+		//未入力件数を取得
+		Integer count = tStudentAttendanceMapper.notEnterCount(
+				loginUserDto.getLmsUserId(), Constants.DB_FLG_FALSE, traningDate);
+		//未入力件数があればtrue
+		if (count > 0) {
+
+			return true;
+		}
+
+		return false;
+	}
+
 }

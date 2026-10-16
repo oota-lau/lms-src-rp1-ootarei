@@ -42,6 +42,11 @@ public class AttendanceController {
 	@RequestMapping(path = "/detail", method = RequestMethod.GET)
 	public String index(Model model) {
 
+		//未入力件数取得
+		boolean hasNotEnterCheck = studentAttendanceService.notEnterCheck();
+
+		model.addAttribute("hasNotEnterCheck", hasNotEnterCheck);
+
 		// 勤怠一覧の取得
 		List<AttendanceManagementDto> attendanceManagementDtoList = studentAttendanceService
 				.getAttendanceManagement(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
