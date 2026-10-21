@@ -384,8 +384,6 @@ public class StudentAttendanceService {
 
 			if (!"欠席".equals(dailyAttendanceForm.getStatusDispName())) {
 
-				System.out.println(dailyAttendanceForm.getTrainingStartTimeHour());
-
 				TrainingTime trainingStartTime = new TrainingTime(
 						dailyAttendanceForm.getTrainingStartTimeHour(),
 						dailyAttendanceForm.getTrainingStartTimeMinits());

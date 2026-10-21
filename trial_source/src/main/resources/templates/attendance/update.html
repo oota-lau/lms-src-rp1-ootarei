@@ -28,8 +28,9 @@
 						<tr>
 							<th class="w140">日付</th>
 							<th class="w300">コース内容</th>
-							<th class="w70">出勤</th>
-							<th class="w70">退勤</th>
+							<th class="w60"></th>
+							<th class="w180" colspan="3">出勤</th>
+							<th class="w180" colspan="3">退勤</th>
 							<th class="w80">中抜け時間</th>
 							<th class="w70">ステータス</th>
 							<th class="w240">備考</th>
@@ -54,6 +55,9 @@
 								</th:block>
 								<td class="w140">[[${dailyAttendanceForm.dispTrainingDate}]]</td>
 								<td class="w300">[[${dailyAttendanceForm.sectionName}]]</td>
+								
+								<td class="w60"><input type="button" class="btn btn-success" value="定時" /></td>
+								
 								<td class="w80">
 									<select th:name="|attendanceList[${stat.index}].trainingStartTimeHour|"
 										class="form-control">
@@ -64,6 +68,7 @@
 										</option>
 									</select>
 								</td>
+								<td>:</td>
 								<td class="w80">
 									<select th:name="|attendanceList[${stat.index}].trainingStartTimeMinits|"
 										class="form-control">
@@ -84,6 +89,7 @@
 										</option>
 									</select>
 								</td>
+								<td>:</td>
 								<td class="w80">
 									<select th:name="|attendanceList[${stat.index}].trainingEndTimeMinits|"
 										class="form-control">
@@ -125,6 +131,40 @@
 			</form>
 		</div>
 	</div>
+	
+	<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 「定時」ボタンをすべて取得
+        const buttons = document.querySelectorAll(
+            'input[type="button"].btn-success'
+        );
+
+        buttons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                // ボタンがある行を取得
+                const row = button.closest('tr');
+
+                // 出勤 09:00
+                row.querySelector(
+                    'select[name$=".trainingStartTimeHour"]'
+                ).value = '9';
+
+                row.querySelector(
+                    'select[name$=".trainingStartTimeMinits"]'
+                ).value = '0';
+
+                // 退勤 18:00
+                row.querySelector(
+                    'select[name$=".trainingEndTimeHour"]'
+                ).value = '18';
+
+                row.querySelector(
+                    'select[name$=".trainingEndTimeMinits"]'
+                ).value = '0';
+            });
+        });
+    });
+</script>
 
 </body>
 
