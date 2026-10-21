@@ -38,13 +38,14 @@ public class AttendanceController {
 	 * @param model
 	 * @return 勤怠管理画面
 	 * @throws ParseException
+	 * @author 太田怜  – Task.25
 	 */
 	@RequestMapping(path = "/detail", method = RequestMethod.GET)
 	public String index(Model model) {
 
+		// 太田怜 – Task.25
 		//未入力件数取得
 		boolean hasNotEnterCheck = studentAttendanceService.notEnterCheck();
-
 		model.addAttribute("hasNotEnterCheck", hasNotEnterCheck);
 
 		// 勤怠一覧の取得
@@ -133,6 +134,7 @@ public class AttendanceController {
 	 * @param result
 	 * @return 勤怠管理画面
 	 * @throws ParseException
+	 * @author 太田怜  – Task.26
 	 */
 	@RequestMapping(path = "/update", params = "complete", method = RequestMethod.POST)
 	public String complete(AttendanceForm attendanceForm, Model model, BindingResult result)

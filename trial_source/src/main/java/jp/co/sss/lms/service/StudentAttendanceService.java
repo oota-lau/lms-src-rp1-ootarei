@@ -350,6 +350,11 @@ public class StudentAttendanceService {
 		return messageUtil.getMessage(Constants.PROP_KEY_ATTENDANCE_UPDATE_NOTICE);
 	}
 
+	/**
+	 * 勤怠過去日未入力確認
+	 * @author 太田怜  – Task.25
+	 * @return 勤怠過去日未入力件数
+	 */
 	public Boolean notEnterCheck() {
 
 		//現在の日付を取得
@@ -366,6 +371,11 @@ public class StudentAttendanceService {
 		return false;
 	}
 
+	/**
+	 * 出勤、退勤時間をhh/mmに形式に設定
+	 * @author 太田怜  – Task.26
+	 * @param attendanceForm
+	 */
 	public void formatConversion(AttendanceForm attendanceForm) {
 
 		//	入力された出退勤の{時間}{分}をhh:mm形式に変換し、AttendanceFormにセットする
