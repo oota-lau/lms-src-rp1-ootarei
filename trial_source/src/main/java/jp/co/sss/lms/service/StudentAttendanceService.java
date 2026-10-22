@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import jp.co.sss.lms.dto.AttendanceManagementDto;
 import jp.co.sss.lms.dto.LoginUserDto;
@@ -30,7 +31,8 @@ import jp.co.sss.lms.util.TrainingTime;
  */
 @Service
 public class StudentAttendanceService {
-
+	@Autowired
+	private TrainingTime trainingTime;
 	@Autowired
 	private DateUtil dateUtil;
 	@Autowired
@@ -399,5 +401,56 @@ public class StudentAttendanceService {
 				dailyAttendanceForm.setTrainingEndTime(endTime);
 			}
 		}
+	}
+
+	public void updateInputCheck(AttendanceForm attendanceForm, BindingResult result) {
+
+		for (DailyAttendanceForm dailyAttendanceForm : attendanceForm.getAttendanceList()) {
+
+			if (dailyAttendanceForm.getNote().length() > 100) {
+
+				result.rejectValue("note", "maxlength");
+
+			}
+
+			dailyAttendanceForm.getTrainingStartTimeHour();
+			dailyAttendanceForm.getTrainingStartTimeMinits();
+
+			if ((dailyAttendanceForm.getTrainingStartTimeHour() == null
+					&& dailyAttendanceForm.getTrainingStartTimeMinits() != null)
+					|| (dailyAttendanceForm.getTrainingStartTimeHour() != null
+							&& dailyAttendanceForm.getTrainingStartTimeMinits() == null)) {
+
+				result.rejectValue("trainingStartTime", Constants.INPUT_INVALID);
+
+			}
+
+			if ((dailyAttendanceForm.getTrainingEndTimeHour() == null
+					&& dailyAttendanceForm.getTrainingEndTimeMinits() != null)
+					|| (dailyAttendanceForm.getTrainingEndTimeHour() != null
+							&& dailyAttendanceForm.getTrainingEndTimeMinits() == null)) {
+
+				result.rejectValue("trainingEndTime", Constants.INPUT_INVALID);
+
+			}
+
+			if (dailyAttendanceForm.getTrainingStartTime() == null
+					&& dailyAttendanceForm.getTrainingEndTime() != null) {
+
+				result.reject(Constants.VALID_KEY_ATTENDANCE_PUNCHINEMPTY);
+
+			}
+
+			TrainingTime trainingStartTime = new TrainingTime(dailyAttendanceForm.getTrainingStartTimeHour(),
+					dailyAttendanceForm.getTrainingStartTimeMinits());
+			TrainingTime trainingEndTime = new TrainingTime(dailyAttendanceForm.getTrainingEndTimeHour(),
+					dailyAttendanceForm.getTrainingEndTimeMinits());
+
+			//if (trainingStartTime.compareTo(trainingEndTime)) {
+
+			//}
+
+		}
+
 	}
 }
