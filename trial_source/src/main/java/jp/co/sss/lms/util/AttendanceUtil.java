@@ -149,8 +149,8 @@ public class AttendanceUtil {
 
 	/**
 	 * 出勤時間（時）取得
-	 * 
-	 * @return 休憩時間
+	 * @return 出勤時間（時）マップ
+	 * @author 太田怜  – Task.26
 	 */
 	public LinkedHashMap<Integer, String> getHourMap() {
 		LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
@@ -166,9 +166,9 @@ public class AttendanceUtil {
 	}
 
 	/**
-	 * 休憩時間取得
-	 * 
-	 * @return 休憩時間
+	 * 出勤時間（分）取得
+	 * @return 出勤時間（分）マップ
+	 * @author 太田怜  – Task.26
 	 */
 	public LinkedHashMap<Integer, String> getMinitsMap() {
 		LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
@@ -187,6 +187,7 @@ public class AttendanceUtil {
 	 * 時間(時)の切り出し
 	 * 
 	 * @return 時間(時)
+	 * @author 太田怜  – Task.26
 	 */
 	public Integer getHour(String timeString) {
 
@@ -206,6 +207,7 @@ public class AttendanceUtil {
 	 * 時間(分)の切り出し
 	 * 
 	 * @return 時間(分)
+	 * @author 太田怜  – Task.26
 	 */
 	public Integer getMinits(String timeString) {
 		
