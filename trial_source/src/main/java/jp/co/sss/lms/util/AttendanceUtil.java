@@ -210,7 +210,7 @@ public class AttendanceUtil {
 	 * @author 太田怜  – Task.26
 	 */
 	public Integer getMinits(String timeString) {
-		
+
 		if (timeString == null || timeString.length() < 5) {
 			return null;
 		}
@@ -220,6 +220,24 @@ public class AttendanceUtil {
 		startMinits = Integer.parseInt(timeString.substring(3, 5));
 
 		return startMinits;
+
+	}
+
+	/**
+	 * 
+	 * 
+	 * @return 時間(分)
+	 * @author 太田怜
+	 */
+	public TrainingTime calcJukoTime(TrainingTime start, TrainingTime end) {
+
+		int startMinutes = start.getHour() * 60 + start.getMinute();
+
+		int endMinutes = end.getHour() * 60 + end.getMinute();
+
+		int jukoMinutes = endMinutes - startMinutes;
+
+		return new TrainingTime(jukoMinutes / 60, jukoMinutes % 60);
 
 	}
 }
