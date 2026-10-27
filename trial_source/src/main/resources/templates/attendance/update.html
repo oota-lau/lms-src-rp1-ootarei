@@ -19,10 +19,22 @@
 		</th:block>
 	</th:block>
 
+
 	<div class="row">
 		<div class="bs-component col-sm-12">
 
-			<form th:action="@{/attendance/update}" method="post">
+			<form th:action="@{/attendance/update}" th:object="${attendanceForm}" method="post">
+				
+				<!-- エラーメッセージ表示 -->
+				<div class="alert alert-danger"
+    	 			th:if="${#fields.hasAnyErrors()}">
+    				<ul>
+        				<li th:each="error : ${#fields.allErrors()}"
+            				th:text="${error}">
+        				</li>
+    				</ul>
+				</div>
+	
 				<table class="table table-hover dataTable no-footer">
 					<thead style="display: block;">
 						<tr>
@@ -37,7 +49,7 @@
 						</tr>
 					</thead>
 					<tbody style="display: block; overflow-y: scroll; height: 560px;">
-						<th:block th:each="dailyAttendanceForm, stat : *{attendanceForm.attendanceList}">
+						<th:block th:each="dailyAttendanceForm, stat : *{attendanceList}">
 							<tr>
 								<th:block>
 									<input type="hidden" th:name="|attendanceList[${stat.index}].isToday|"
@@ -60,6 +72,7 @@
 								
 								<td class="w80">
 									<select th:name="|attendanceList[${stat.index}].trainingStartTimeHour|"
+										th:classappend="${#fields.hasErrors('attendanceList[' + stat.index + '].trainingStartTime')} ? ' errorInput' : ''"
 										class="form-control">
 										<option th:each="hour : ${attendanceForm.hourMap}" th:value="${hour.key}"
 											th:inlne="text" class="form-control"
@@ -71,6 +84,7 @@
 								<td>:</td>
 								<td class="w80">
 									<select th:name="|attendanceList[${stat.index}].trainingStartTimeMinits|"
+										th:classappend="${#fields.hasErrors('attendanceList[' + stat.index + '].trainingStartTime')} ? ' errorInput' : ''"
 										class="form-control">
 										<option th:each="minit : ${attendanceForm.minitsMap}" th:value="${minit.key}"
 											th:inlne="text" class="form-control"
@@ -81,6 +95,7 @@
 								</td>
 								<td class="w80">
 									<select th:name="|attendanceList[${stat.index}].trainingEndTimeHour|"
+										th:classappend="${#fields.hasErrors('attendanceList[' + stat.index + '].trainingEndTime')} ? ' errorInput' : ''"
 										class="form-control">
 										<option th:each="hour : ${attendanceForm.hourMap}" th:value="${hour.key}"
 											th:inlne="text" class="form-control"
@@ -92,6 +107,7 @@
 								<td>:</td>
 								<td class="w80">
 									<select th:name="|attendanceList[${stat.index}].trainingEndTimeMinits|"
+										th:classappend="${#fields.hasErrors('attendanceList[' + stat.index + '].trainingEndTime')} ? ' errorInput' : ''"
 										class="form-control">
 										<option th:each="minit : ${attendanceForm.minitsMap}" th:value="${minit.key}"
 											th:inlne="text" class="form-control"
@@ -111,7 +127,10 @@
 								<td class="w70">[[${dailyAttendanceForm.statusDispName}]]</td>
 								<td class="w240">
 									<input type="text" th:name="|attendanceList[${stat.index}].note|"
-										th:value="${dailyAttendanceForm.note}" class="form-control"></input>
+										th:value="${dailyAttendanceForm.note}"
+										th:classappend="${#fields.hasErrors('attendanceList[' + stat.index + '].note')} ? ' errorInput' : ''"
+										class="form-control">
+									</input>
 								</td>
 							</tr>
 						</th:block>
@@ -171,7 +190,7 @@
       function registCheck() {
         if (confirm("更新します。よろしいですか？")) {
           return true;
-        }
+        }	
         else {
           return false;
         }
