@@ -442,12 +442,20 @@ public class StudentAttendanceService {
 
 			//出勤時間（時）、出勤時間（分）の一方が入力有り＆もう一方が入力なし
 			if ((dailyAttendanceForm.getTrainingStartTimeHour() == null
-					&& dailyAttendanceForm.getTrainingStartTimeMinits() != null)
-					|| (dailyAttendanceForm.getTrainingStartTimeHour() != null
-							&& dailyAttendanceForm.getTrainingStartTimeMinits() == null)) {
+					&& dailyAttendanceForm.getTrainingStartTimeMinits() != null)) {
 
 				result.rejectValue(
-						prefix + "trainingStartTime",
+						prefix + "trainingStartTimeHour",
+						Constants.INPUT_INVALID,
+						new Object[] { "出勤時間" },
+						null);
+
+			}
+			if ((dailyAttendanceForm.getTrainingStartTimeHour() != null
+					&& dailyAttendanceForm.getTrainingStartTimeMinits() == null)) {
+
+				result.rejectValue(
+						prefix + "trainingStartTimeMinits",
 						Constants.INPUT_INVALID,
 						new Object[] { "出勤時間" },
 						null);
@@ -456,12 +464,21 @@ public class StudentAttendanceService {
 
 			//退勤時間（時）、退勤時間（分）の一方が入力有り＆もう一方が入力なし
 			if ((dailyAttendanceForm.getTrainingEndTimeHour() == null
-					&& dailyAttendanceForm.getTrainingEndTimeMinits() != null)
-					|| (dailyAttendanceForm.getTrainingEndTimeHour() != null
-							&& dailyAttendanceForm.getTrainingEndTimeMinits() == null)) {
+					&& dailyAttendanceForm.getTrainingEndTimeMinits() != null)) {
 
 				result.rejectValue(
-						prefix + "trainingEndTime",
+						prefix + "trainingEndTimeHour",
+						Constants.INPUT_INVALID,
+						new Object[] { "退勤時間" },
+						null);
+
+			}
+
+			if ((dailyAttendanceForm.getTrainingEndTimeHour() != null
+					&& dailyAttendanceForm.getTrainingEndTimeMinits() == null)) {
+
+				result.rejectValue(
+						prefix + "trainingEndTimeMinits",
 						Constants.INPUT_INVALID,
 						new Object[] { "退勤時間" },
 						null);
@@ -480,16 +497,16 @@ public class StudentAttendanceService {
 
 			}
 
-			Integer startHour = dailyAttendanceForm.getTrainingStartTimeHour();
-			Integer startMinute = dailyAttendanceForm.getTrainingStartTimeMinits();
-			Integer endHour = dailyAttendanceForm.getTrainingEndTimeHour();
-			Integer endMinute = dailyAttendanceForm.getTrainingEndTimeMinits();
-
+			/*		Integer startHour = dailyAttendanceForm.getTrainingStartTimeHour();
+					Integer startMinute = dailyAttendanceForm.getTrainingStartTimeMinits();
+					Integer endHour = dailyAttendanceForm.getTrainingEndTimeHour();
+					Integer endMinute = dailyAttendanceForm.getTrainingEndTimeMinits();
+			*/
 			//nullチェック
-			if (startHour != null
-					&& startMinute != null
-					&& endHour != null
-					&& endMinute != null) {
+			if (dailyAttendanceForm.getTrainingStartTimeHour() != null
+					&& dailyAttendanceForm.getTrainingStartTimeMinits() != null
+					&& dailyAttendanceForm.getTrainingEndTimeHour() != null
+					&& dailyAttendanceForm.getTrainingEndTimeMinits() != null) {
 
 				TrainingTime trainingStartTime = new TrainingTime(
 						dailyAttendanceForm.getTrainingStartTimeHour(),
@@ -499,12 +516,12 @@ public class StudentAttendanceService {
 						dailyAttendanceForm.getTrainingEndTimeMinits());
 
 				//出勤時間 > 退勤時間
-				if (trainingStartTime.compareTo(trainingEndTime) > 0) {
+				if (trainingStartTime.compareTo(trainingEndTime) > -1) {
 
 					result.rejectValue(
 							prefix + "trainingStartTime",
 							Constants.VALID_KEY_ATTENDANCE_TRAININGTIMERANGE,
-							new Object[] { i + 1 },
+							new Object[] { i },
 							null);
 
 				}
@@ -516,7 +533,7 @@ public class StudentAttendanceService {
 					TrainingTime jukoAllTime = attendanceUtil.calcJukoTime(trainingStartTime, trainingEndTime);
 
 					// f. 中抜け時間が勤務時間を超える場合
-					if (blankTime.compareTo(jukoAllTime) > 0) {
+					if (blankTime.compareTo(jukoAllTime) > -1) {
 
 						result.rejectValue(
 								prefix + "blankTime",

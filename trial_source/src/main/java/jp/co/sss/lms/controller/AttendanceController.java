@@ -92,7 +92,6 @@ public class AttendanceController {
 	@RequestMapping(path = "/detail", params = "punchOut", method = RequestMethod.POST)
 	public String punchOut(Model model) {
 
-		// 太田怜 – Task.26
 		// 更新前のチェック
 		String error = studentAttendanceService.punchCheck(Constants.CODE_VAL_LEAVING);
 		model.addAttribute("error", error);
